@@ -172,3 +172,42 @@ button,a{-webkit-tap-highlight-color:transparent}
 
 *{font-family:"Times New Roman",Times,serif!important}
 .landing-hero:before{background:linear-gradient(112deg,transparent 54%,rgb(255 255 255 / 3%) 54%,rgb(255 255 255 / 3%) 68%,transparent 68%),repeating-linear-gradient(90deg,transparent 0 19%,rgb(226 59 50 / 13%) 19.1% 19.35%,transparent 19.45% 21%),radial-gradient(ellipse at 78% 78%,rgb(226 59 50 / 18%),transparent 38%)}
+.header-actions{display:flex;align-items:center;gap:9px}
+.account-link{padding:9px 10px;color:#fff;font-size:11px;font-weight:600;white-space:nowrap}
+.account-link-primary{border:1px solid #e23b32;border-radius:4px;background:#e23b32}
+.auth-message{margin:14px 0 0;padding:11px 12px;border-left:3px solid #e23b32;background:#fff;color:#555;font-size:12px;line-height:1.5}
+.team-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.team-card{min-height:84px;display:flex;align-items:center;gap:13px;padding:15px;border:1px solid #d6d5d1;background:#fff}
+.team-avatar{width:39px;height:39px;display:grid;place-items:center;border:1px solid #d6d5d1;border-radius:50%;font-weight:700}
+.team-card>div{display:grid;gap:4px;flex:1}
+.team-card strong{font-size:13px}
+.team-card>div>span{color:#777873;font-size:10px}
+.member-status{color:#a7352f;font-size:8px;font-weight:700;letter-spacing:.08em}
+@media(max-width:650px){.header-actions{order:2;gap:4px}.account-link{padding:8px 6px;font-size:10px}.header-actions .header-action{display:none}.team-grid{grid-template-columns:1fr}}
+.brand-mark{width:78px;height:42px;flex:0 0 78px;overflow:hidden;border:1px solid #d5d5d2;border-radius:4px;background:#fff}
+.brand-mark img{width:100%;height:100%;display:block;object-fit:cover;object-position:center 52%}
+.site-header .brand-mark,.site-footer .brand-mark{background:#fff}
+.site-footer .brand-mark{width:66px;height:36px;flex-basis:66px}
+.hero-car-background{position:absolute;z-index:-1;right:4%;bottom:0;width:min(470px,48%);height:100%;object-fit:contain;opacity:.2;filter:grayscale(1) invert(1);mix-blend-mode:screen;pointer-events:none}
+.management-form{display:grid;gap:17px;margin-bottom:27px;padding:22px}
+.management-form .card-heading{padding:0}
+.management-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
+.management-field{display:grid;gap:7px;color:#444;font-size:11px;font-weight:650}
+.management-field input,.management-field select{width:100%;min-height:40px;padding:9px 11px;border:1px solid #d9d8d4;border-radius:3px;background:#fff;color:#20211f;font-size:12px}
+.management-field input:focus,.management-field select:focus{border-color:#191a1b;outline:2px solid rgb(25 26 27 / 9%);outline-offset:1px}
+.management-form>.button{justify-self:start}
+.member-picker{margin:0;padding:14px;border:1px solid #deddd9}
+.member-picker legend{padding:0 5px;color:#444;font-size:11px;font-weight:650}
+.member-options{display:flex;flex-wrap:wrap;gap:10px 18px}
+.member-options label{display:flex;align-items:center;gap:7px;color:#5e5f5b;font-size:11px}
+.member-options input{accent-color:#e23b32}
+.form-error{margin:0;color:#9b4038;font-size:11px}
+.team-directory,.project-directory{margin-top:27px}
+.race-project-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.race-project-card{padding:20px;border:1px solid #d6d5d1;background:#fff}
+.race-project-card h3{margin:8px 0 17px;font-size:18px}
+.race-project-card dl{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:0}
+.race-project-card dl div{display:grid;gap:5px}
+.race-project-card dt{color:#8a8b86;font-size:8px;font-weight:700;letter-spacing:.1em}
+.race-project-card dd{margin:0;font-size:11px}
+@media(max-width:650px){.brand-mark{width:62px;height:36px;flex-basis:62px}.site-footer .brand-mark{width:58px;height:32px;flex-basis:58px}.hero-car-background{right:-15%;width:80%;opacity:.12}.management-grid,.race-project-grid{grid-template-columns:1fr}.management-form{padding:17px}}
