@@ -12,9 +12,10 @@ function Logo() {
     <Link to="/" className="brand" aria-label="Fastline home">
       <span className="brand-mark" aria-hidden="true">
         <svg viewBox="0 0 42 32" role="img">
-          <path d="M4 23h3l3.5-9h20l5 9H39v5H4z" />
-          <path d="M12 14l2.2-5h12.5l3.3 5M8 20h27" />
-          <circle cx="12" cy="27" r="3" /><circle cx="31" cy="27" r="3" />
+          <path d="M3 10h7M1 16h8M4 22h6" />
+          <path d="M13 21l3-7h14l4 3h6v7H13z" />
+          <path d="M19 14l3-5h7l4 5M16 19h21" />
+          <circle cx="20" cy="24" r="2" /><circle cx="34" cy="24" r="2" />
         </svg>
       </span>
       <span>FASTLINE</span>

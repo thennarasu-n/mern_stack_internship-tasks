@@ -126,6 +126,7 @@ button,a{-webkit-tap-highlight-color:transparent}
 :root{background:#f0f0ee;color:#171819}
 .site-header{background:#141516;border-color:#303132;color:#fff}
 .site-header .brand{color:#fff;letter-spacing:.045em}
+.site-header .brand-mark{border-radius:4px;background:#e23b32}
 .site-header .brand-mark svg{stroke:#fff}
 .site-nav a{color:#b4b4b1}
 .site-nav a:hover,.site-nav a.active{color:#fff}
@@ -166,6 +167,7 @@ button,a{-webkit-tap-highlight-color:transparent}
 .empty-state .text-link{margin-top:6px;color:#a7352f}
 .site-footer{background:#141516;border-color:#303132}
 .site-footer .brand{color:#fff}
+.site-footer .brand-mark{border-radius:4px;background:#e23b32}
 .site-footer .brand-mark svg{stroke:#fff}
 .site-footer>span{color:#b4b4b1}
 @media(max-width:650px){.landing-hero{width:100%;padding-right:20px;padding-left:20px}.site-header{background:#141516}.landing-proof{background:#e23b32}.empty-state{padding:24px 12px}}
