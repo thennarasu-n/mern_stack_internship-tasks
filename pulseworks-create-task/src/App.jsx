@@ -1,15 +1,44 @@
 import React from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { z } from "zod";
+
+const employees = ["Employee 01", "Employee 02", "Employee 03", "Employee 04"];
+const priorities = ["Low", "Medium", "High"];
+const statuses = ["Pending", "In Progress", "Completed"];
+
+const taskSchema = z.object({
+  title: z.string().trim().min(3, "Task title must be at least 3 characters."),
+  description: z.string().trim().min(1, "Please enter a task description."),
+  assignee: z.string().refine((value) => employees.includes(value), "Please select an employee."),
+  priority: z.string().refine((value) => priorities.includes(value), "Please select Low, Medium, or High priority."),
+  dueDate: z.string().refine((value) => {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
+    const parsedDate = new Date(`${value}T00:00:00Z`);
+    return !Number.isNaN(parsedDate.getTime()) && parsedDate.toISOString().slice(0, 10) === value;
+  }, "Please select a valid due date."),
+  status: z.string().refine((value) => statuses.includes(value), "Please select a task status."),
+});
+
+function FieldError({ id, children }) {
+  return children ? <span className="field-error" id={id} role="alert">{children}</span> : null;
+}
 
 function App() {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({
+    resolver: zodResolver(taskSchema),
     defaultValues: {
-      priority: "Medium",
-      status: "To do",
+      title: "",
+      description: "",
+      assignee: "",
+      priority: "",
+      dueDate: "",
+      status: "",
     },
   });
 
@@ -21,7 +50,7 @@ function App() {
     <main className="app-shell">
       <aside className="sidebar">
         <a className="brand" href="#" aria-label="PulseWorks home">
-          <span className="brand-mark">p</span>
+          <span className="brand-mark" aria-hidden="true">P</span>
           <span>pulseworks</span>
         </a>
         <div className="workspace-label">WORKSPACE</div>
@@ -39,8 +68,8 @@ function App() {
             <a href="mailto:hello@pulseworks.example">Get help <span aria-hidden="true">↗</span></a>
           </div>
           <div className="profile">
-            <div className="profile-avatar">JD</div>
-            <div><strong>Jamie Davis</strong><span>Workspace admin</span></div>
+            <div className="profile-avatar">AA</div>
+            <div><strong>Arasu</strong><span>Workspace admin</span></div>
             <button type="button" aria-label="Profile options">···</button>
           </div>
         </div>
@@ -75,25 +104,18 @@ function App() {
 
               <div className="field">
                 <label htmlFor="title">Task title <span className="required">*</span></label>
-                <input
-                  id="title"
-                  type="text"
-                  placeholder="e.g. Finalize homepage wireframes"
-                  aria-invalid={Boolean(errors.title)}
-                  aria-describedby={errors.title ? "title-error" : undefined}
-                  {...register("title", { required: "A task title is required." })}
-                />
-                {errors.title && <span className="field-error" id="title-error">{errors.title.message}</span>}
+                <input id="title" type="text" placeholder="e.g. Finalize homepage wireframes"
+                  aria-invalid={Boolean(errors.title)} aria-describedby={errors.title ? "title-error" : undefined}
+                  {...register("title")} />
+                <FieldError id="title-error">{errors.title?.message}</FieldError>
               </div>
 
               <div className="field">
-                <label htmlFor="description">Description <span className="optional">Optional</span></label>
-                <textarea
-                  id="description"
-                  rows="4"
-                  placeholder="Add context, links, or details your teammate might need..."
-                  {...register("description")}
-                />
+                <label htmlFor="description">Description <span className="required">*</span></label>
+                <textarea id="description" rows="4" placeholder="Add context, links, or details your teammate might need..."
+                  aria-invalid={Boolean(errors.description)} aria-describedby={errors.description ? "description-error" : undefined}
+                  {...register("description")} />
+                <FieldError id="description-error">{errors.description?.message}</FieldError>
                 <div className="field-hint">A clear description helps everyone stay on the same page.</div>
               </div>
             </div>
@@ -108,56 +130,44 @@ function App() {
                 <div className="field">
                   <label htmlFor="assignee">Assigned employee <span className="required">*</span></label>
                   <div className="select-wrap">
-                    <select
-                      id="assignee"
-                      defaultValue=""
-                      aria-invalid={Boolean(errors.assignee)}
-                      aria-describedby={errors.assignee ? "assignee-error" : undefined}
-                      {...register("assignee", { required: "Please choose an assignee." })}
-                    >
-                      <option value="" disabled>Select a teammate</option>
-                      <option value="Jamie Davis">Jamie Davis</option>
-                      <option value="Taylor Chen">Taylor Chen</option>
-                      <option value="Morgan Lee">Morgan Lee</option>
-                      <option value="Riley Patel">Riley Patel</option>
+                    <select id="assignee" aria-invalid={Boolean(errors.assignee)}
+                      aria-describedby={errors.assignee ? "assignee-error" : undefined} {...register("assignee")}>
+                      <option value="">Select a teammate</option>
+                      {employees.map((employee) => <option key={employee} value={employee}>{employee}</option>)}
                     </select>
                   </div>
-                  {errors.assignee && <span className="field-error" id="assignee-error">{errors.assignee.message}</span>}
+                  <FieldError id="assignee-error">{errors.assignee?.message}</FieldError>
                 </div>
 
                 <div className="field">
-                  <label htmlFor="priority">Priority</label>
+                  <label htmlFor="priority">Priority <span className="required">*</span></label>
                   <div className="select-wrap">
-                    <select id="priority" {...register("priority")}>
-                      <option value="Low">Low</option>
-                      <option value="Medium">Medium</option>
-                      <option value="High">High</option>
-                      <option value="Urgent">Urgent</option>
+                    <select id="priority" aria-invalid={Boolean(errors.priority)}
+                      aria-describedby={errors.priority ? "priority-error" : undefined} {...register("priority")}>
+                      <option value="">Select priority</option>
+                      {priorities.map((priority) => <option key={priority} value={priority}>{priority}</option>)}
                     </select>
                   </div>
+                  <FieldError id="priority-error">{errors.priority?.message}</FieldError>
                 </div>
 
                 <div className="field">
                   <label htmlFor="dueDate">Due date <span className="required">*</span></label>
-                  <input
-                    id="dueDate"
-                    type="date"
-                    aria-invalid={Boolean(errors.dueDate)}
-                    aria-describedby={errors.dueDate ? "due-date-error" : undefined}
-                    {...register("dueDate", { required: "Please set a due date." })}
-                  />
-                  {errors.dueDate && <span className="field-error" id="due-date-error">{errors.dueDate.message}</span>}
+                  <input id="dueDate" type="date" aria-invalid={Boolean(errors.dueDate)}
+                    aria-describedby={errors.dueDate ? "due-date-error" : undefined} {...register("dueDate")} />
+                  <FieldError id="due-date-error">{errors.dueDate?.message}</FieldError>
                 </div>
 
                 <div className="field">
-                  <label htmlFor="status">Status</label>
+                  <label htmlFor="status">Status <span className="required">*</span></label>
                   <div className="select-wrap">
-                    <select id="status" {...register("status")}>
-                      <option value="To do">To do</option>
-                      <option value="In progress">In progress</option>
-                      <option value="In review">In review</option>
+                    <select id="status" aria-invalid={Boolean(errors.status)}
+                      aria-describedby={errors.status ? "status-error" : undefined} {...register("status")}>
+                      <option value="">Select status</option>
+                      {statuses.map((status) => <option key={status} value={status}>{status}</option>)}
                     </select>
                   </div>
+                  <FieldError id="status-error">{errors.status?.message}</FieldError>
                 </div>
               </div>
             </div>
@@ -165,7 +175,7 @@ function App() {
             <div className="form-footer">
               <p><span className="required">*</span> Required fields</p>
               <div className="form-buttons">
-                <button className="cancel-button" type="reset">Cancel</button>
+                <button className="cancel-button" type="button" onClick={() => reset()}>Cancel</button>
                 <button className="submit-button" type="submit"><span>＋</span> Create task</button>
               </div>
             </div>
